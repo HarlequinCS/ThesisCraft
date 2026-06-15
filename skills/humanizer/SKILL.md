@@ -1348,6 +1348,33 @@ The workflow makes scanner findings easier to verify and turn into remediation s
 
 ---
 
+## Workflow template cleanup rule
+
+Before final output, rewrite generic workflow openers.
+
+Avoid:
+- In this workflow,
+- In this pipeline,
+- In this system,
+- The workflow proposed in this study
+- The proposed workflow
+
+Prefer opening with the actual process.
+
+Bad:
+In this workflow, verification happens after the scan.
+
+Good:
+After the scan, the system verifies the reported issue before passing it to the remediation stage.
+
+Bad:
+In this pipeline, GPT-4o generates remediation suggestions.
+
+Good:
+Once verification is complete, GPT-4o reads the findings and prepares remediation suggestions for developer review.
+
+---
+
 ## Final instruction
 
 Write like a careful human academic editor.
