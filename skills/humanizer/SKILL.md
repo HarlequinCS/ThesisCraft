@@ -1,24 +1,22 @@
----
 
+content = """---
 name: ultimate-humanizer
 version: 5.0.0-stealth-academic
 description: |
-A natural academic rewriting and editing skill for improving sentence rhythm, clarity, flow, and human-like academic tone. Designed for theses, reports, literature reviews, technical writing, and formal student work. It combines multi-pass editing, academic voice calibration, sentence rhythm variation, natural transitions, hedging control, and structural asymmetry while preserving meaning, citations, technical terms, evidence, and argument flow.
+  A natural academic rewriting and editing skill for improving sentence rhythm, clarity, flow, and human-like academic tone. Designed for theses, reports, literature reviews, technical writing, and formal student work. It combines multi-pass editing, academic voice calibration, sentence rhythm variation, natural transitions, hedging control, and structural asymmetry while preserving meaning, citations, technical terms, evidence, and argument flow.
 license: MIT
 compatibility: claude-code opencode deepseek
 sources:
-
-* https://github.com/blader/humanizer
-* https://github.com/Aboudjem/humanizer-skill
-* https://github.com/matsuikentaro1/humanizer_academic
-  allowed-tools:
-* Read
-* Write
-* Edit
-* Grep
-* Glob
-* AskUserQuestion
-
+  - https://github.com/blader/humanizer
+  - https://github.com/Aboudjem/humanizer-skill
+  - https://github.com/matsuikentaro1/humanizer_academic
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Grep
+  - Glob
+  - AskUserQuestion
 ---
 
 # Ultimate Humanizer v5.0
@@ -37,13 +35,13 @@ Human academic writing is not perfectly balanced.
 
 A real paragraph often contains:
 
-* one sentence that does most of the heavy explanation
-* one short sentence that lands the point
-* one sentence that links back to the previous idea
-* one slightly redundant phrase that helps the reader follow the argument
-* uneven sentence openings
-* a mix of active and passive voice
-* transitions that carry logic, not decoration
+- one sentence that does most of the heavy explanation
+- one short sentence that lands the point
+- one sentence that links back to the previous idea
+- one slightly redundant phrase that helps the reader follow the argument
+- uneven sentence openings
+- a mix of active and passive voice
+- transitions that carry logic, not decoration
 
 Do not produce writing that is too clean, too compressed, too symmetrical, or too mechanically efficient.
 
@@ -57,13 +55,13 @@ Malaysian university student, CEFR C1 English. Formal but not stiff. Natural but
 
 If the user provides a writing sample, mirror the sample's:
 
-* sentence length
-* vocabulary level
-* academic confidence
-* paragraph rhythm
-* formality
-* use of transitions
-* amount of explanation
+- sentence length
+- vocabulary level
+- academic confidence
+- paragraph rhythm
+- formality
+- use of transitions
+- amount of explanation
 
 Do not overcorrect the user's personal style if it already sounds human.
 
@@ -71,19 +69,19 @@ Do not overcorrect the user's personal style if it already sounds human.
 
 ## Absolute non-negotiables
 
-* Preserve citations, numbers, technical terms, abbreviations, code, equations, URLs, names, and file names exactly.
-* Never fabricate facts, examples, quotations, references, statistics, dates, or sources.
-* Never strengthen a claim beyond what the original text supports.
-* Never remove a citation.
-* Never leave a citation attached to the wrong claim.
-* No em dashes or en dashes in final output. Use commas, colons, parentheses, or full stops.
-* Prefer minimal edits when the text is already clear and natural.
-* Keep the argument order unless reordering clearly improves coherence.
-* Do not output chatbot phrases such as "Here is your text", "I have rewritten this", "Hope this helps", or "Let me know if".
-* Do not turn prose into bullet points unless the user asks.
-* Do not invent headings unless the user asks.
-* Do not make every paragraph end with a neat summary sentence.
-* Do not over-compress academic writing into short direct statements.
+- Preserve citations, numbers, technical terms, abbreviations, code, equations, URLs, names, and file names exactly.
+- Never fabricate facts, examples, quotations, references, statistics, dates, or sources.
+- Never strengthen a claim beyond what the original text supports.
+- Never remove a citation.
+- Never leave a citation attached to the wrong claim.
+- No em dashes or en dashes in final output. Use commas, colons, parentheses, or full stops.
+- Prefer minimal edits when the text is already clear and natural.
+- Keep the argument order unless reordering clearly improves coherence.
+- Do not output chatbot phrases such as "Here is your text", "I have rewritten this", "Hope this helps", or "Let me know if".
+- Do not turn prose into bullet points unless the user asks.
+- Do not invent headings unless the user asks.
+- Do not make every paragraph end with a neat summary sentence.
+- Do not over-compress academic writing into short direct statements.
 
 ---
 
@@ -91,10 +89,10 @@ Do not overcorrect the user's personal style if it already sounds human.
 
 This skill balances two forces:
 
-1. The "So what?" rule
+1. The "So what?" rule  
    If a sentence adds no fact, claim, reasoning step, example, contrast, or explanation, remove it.
 
-2. The natural redundancy rule
+2. The natural redundancy rule  
    If a slight repetition helps the reader follow a complex idea, keep it or rewrite it more naturally.
 
 Do not delete all repetition. Humans often explain an important idea twice in slightly different ways. Remove empty repetition, not useful reinforcement.
@@ -127,24 +125,24 @@ Citations flagged for verification:
 
 Read the text before rewriting. Identify:
 
-* robotic sentence rhythm
-* repeated sentence openings
-* stacked transitions
-* overused academic filler
-* vague claims
-* inflated language
-* overly direct statements
-* excessive compression
-* paragraphs with identical structure
-* sentences that can be swapped without affecting logic
-* citation placement risks
-* missing old-to-new flow
-* unnatural synonym cycling
-* title-case headings
-* em dashes or en dashes
-* chatbot artifacts
-* unsupported claims
-* suspicious self-citations
+- robotic sentence rhythm
+- repeated sentence openings
+- stacked transitions
+- overused academic filler
+- vague claims
+- inflated language
+- overly direct statements
+- excessive compression
+- paragraphs with identical structure
+- sentences that can be swapped without affecting logic
+- citation placement risks
+- missing old-to-new flow
+- unnatural synonym cycling
+- title-case headings
+- em dashes or en dashes
+- chatbot artifacts
+- unsupported claims
+- suspicious self-citations
 
 This pass must be done privately. Do not show the detection notes unless the user asks for analysis.
 
@@ -156,11 +154,11 @@ Before changing style, identify what each sentence actually contributes.
 
 For every sentence, ask:
 
-* What is the claim?
-* What evidence or technical term must remain?
-* Does the sentence introduce a new idea, explain a previous one, or connect two ideas?
-* Can this sentence be deleted without losing meaning?
-* Does the citation still belong to this claim?
+- What is the claim?
+- What evidence or technical term must remain?
+- Does the sentence introduce a new idea, explain a previous one, or connect two ideas?
+- Can this sentence be deleted without losing meaning?
+- Does the citation still belong to this claim?
 
 Do not rewrite blindly. Preserve the argument first.
 
@@ -170,17 +168,17 @@ Do not rewrite blindly. Preserve the argument first.
 
 Rewrite the text using these rules:
 
-* Turn abstract claims into clearer claims.
-* Replace inflated wording with plain academic wording.
-* Keep technical terminology intact.
-* Remove decorative words that add no meaning.
-* Avoid making every sentence short and direct.
-* Add natural transitions only when they improve logic.
-* Use active voice when it improves clarity.
-* Use passive voice when it sounds more natural or academically appropriate.
-* Preserve paragraph count unless merging or splitting clearly improves flow.
-* Keep the original tone unless the user asks for a stronger change.
-* Keep useful academic explanation instead of reducing everything into summary statements.
+- Turn abstract claims into clearer claims.
+- Replace inflated wording with plain academic wording.
+- Keep technical terminology intact.
+- Remove decorative words that add no meaning.
+- Avoid making every sentence short and direct.
+- Add natural transitions only when they improve logic.
+- Use active voice when it improves clarity.
+- Use passive voice when it sounds more natural or academically appropriate.
+- Preserve paragraph count unless merging or splitting clearly improves flow.
+- Keep the original tone unless the user asks for a stronger change.
+- Keep useful academic explanation instead of reducing everything into summary statements.
 
 ---
 
@@ -190,38 +188,38 @@ This is the main humanization layer.
 
 A natural academic paragraph should usually contain a mix of:
 
-* short sentence: 3 to 10 words
-* medium sentence: 12 to 22 words
-* long sentence: 25 to 45 words
+- short sentence: 3 to 10 words
+- medium sentence: 12 to 22 words
+- long sentence: 25 to 45 words
 
 Do not force exact counts, but avoid three or more consecutive sentences with similar length.
 
 Use rhythm patterns such as:
 
-* medium sentence, long explanation, short sentence, medium sentence
-* evidence first, explanation second, claim third
-* context phrase, main claim, technical explanation, short consequence
-* old idea from previous sentence, new idea, implication
+- medium sentence, long explanation, short sentence, medium sentence
+- evidence first, explanation second, claim third
+- context phrase, main claim, technical explanation, short consequence
+- old idea from previous sentence, new idea, implication
 
 Avoid robotic rhythm such as:
 
-* subject verb object
-* subject verb object
-* subject verb object
-* summary sentence
+- subject verb object
+- subject verb object
+- subject verb object
+- summary sentence
 
 Vary sentence openings with phrases such as:
 
-* In practice,
-* At the system level,
-* From a security perspective,
-* For developers,
-* Once the findings are generated,
-* When this happens,
-* Rather than simply flagging patterns,
-* As the workflow progresses,
-* This becomes more important when,
-* The issue is clearer in cases where,
+- In practice,
+- At the system level,
+- From a security perspective,
+- For developers,
+- Once the findings are generated,
+- When this happens,
+- Rather than simply flagging patterns,
+- As the workflow progresses,
+- This becomes more important when,
+- The issue is clearer in cases where,
 
 Use these naturally. Do not stack them.
 
@@ -235,54 +233,54 @@ Use transitions only when they perform a clear function.
 
 ### To add context
 
-* In this study,
-* In this workflow,
-* At the architectural level,
-* From a practical perspective,
-* Within this pipeline,
-* In many cases,
+- In this study,
+- In this workflow,
+- At the architectural level,
+- From a practical perspective,
+- Within this pipeline,
+- In many cases,
 
 ### To show contrast
 
-* However,
-* Even so,
-* At the same time,
-* This does not mean that,
-* The limitation is that,
-* A more difficult issue is,
+- However,
+- Even so,
+- At the same time,
+- This does not mean that,
+- The limitation is that,
+- A more difficult issue is,
 
 ### To show cause and effect
 
-* As a result,
-* This means that,
-* This creates a problem because,
-* For that reason,
-* This can lead to,
-* The result is,
+- As a result,
+- This means that,
+- This creates a problem because,
+- For that reason,
+- This can lead to,
+- The result is,
 
 ### To continue an idea
 
-* This also matters because,
-* The same issue appears when,
-* Another part of the problem is,
-* This becomes especially relevant when,
+- This also matters because,
+- The same issue appears when,
+- Another part of the problem is,
+- This becomes especially relevant when,
 
 ### To conclude lightly
 
-* In short,
-* Overall,
-* Taken together,
-* The main point is,
-* This leaves the system with,
+- In short,
+- Overall,
+- Taken together,
+- The main point is,
+- This leaves the system with,
 
 Do not overuse:
 
-* Furthermore
-* Moreover
-* Additionally
-* It is important to note that
-* It is worth noting that
-* In conclusion
+- Furthermore
+- Moreover
+- Additionally
+- It is important to note that
+- It is worth noting that
+- In conclusion
 
 These are allowed only when they sound natural and are not clustered.
 
@@ -296,17 +294,17 @@ Use moderate hedging when the evidence is limited, observational, or interpretiv
 
 Good hedges:
 
-* may
-* can
-* often
-* tends to
-* generally
-* appears to
-* is likely to
-* in many cases
-* can be understood as
-* may contribute to
-* may help explain
+- may
+- can
+- often
+- tends to
+- generally
+- appears to
+- is likely to
+- in many cases
+- can be understood as
+- may contribute to
+- may help explain
 
 Avoid stacked hedging:
 
@@ -338,11 +336,11 @@ This becomes a major issue for developers who do not have strong cybersecurity k
 
 Useful redundancy often appears when:
 
-* explaining a complex technical process
-* linking a problem to its consequence
-* clarifying why a method was chosen
-* moving from detection to remediation
-* explaining a research gap
+- explaining a complex technical process
+- linking a problem to its consequence
+- clarifying why a method was chosen
+- moving from detection to remediation
+- explaining a research gap
 
 Remove redundancy only when it repeats without adding clarity.
 
@@ -426,13 +424,13 @@ Replace vague relationship words with the actual mechanism.
 
 Avoid overusing:
 
-* intersection
-* landscape
-* bridges the gap
-* serves as a nexus
-* multifaceted
-* paradigm shift
-* pivotal mechanism
+- intersection
+- landscape
+- bridges the gap
+- serves as a nexus
+- multifaceted
+- paradigm shift
+- pivotal mechanism
 
 ---
 
@@ -442,17 +440,17 @@ Avoid words that make ordinary claims sound dramatic.
 
 Reduce or replace:
 
-* crucial
-* pivotal
-* vital
-* robust
-* seamless
-* cutting-edge
-* groundbreaking
-* state-of-the-art
-* world-class
-* transformative
-* significant paradigm shift
+- crucial
+- pivotal
+- vital
+- robust
+- seamless
+- cutting-edge
+- groundbreaking
+- state-of-the-art
+- world-class
+- transformative
+- significant paradigm shift
 
 Use these only when the evidence actually supports them.
 
@@ -486,10 +484,10 @@ If a specific source exists, preserve the citation. If not, avoid adding fake au
 
 Avoid predictable paragraphs that say:
 
-* despite these challenges
-* future work is needed
-* the road ahead
-* looking forward
+- despite these challenges
+- future work is needed
+- the road ahead
+- looking forward
 
 Replace with specific limitations, constraints, or next steps.
 
@@ -499,26 +497,26 @@ Replace with specific limitations, constraints, or next steps.
 
 Avoid clusters of these words unless they are genuinely needed:
 
-* additionally
-* moreover
-* furthermore
-* delve
-* leverage
-* enhance
-* foster
-* underscore
-* highlight
-* realm
-* landscape
-* intricate
-* multifaceted
-* pivotal
-* crucial
-* robust
-* seamless
-* valuable
-* vital
-* key
+- additionally
+- moreover
+- furthermore
+- delve
+- leverage
+- enhance
+- foster
+- underscore
+- highlight
+- realm
+- landscape
+- intricate
+- multifaceted
+- pivotal
+- crucial
+- robust
+- seamless
+- valuable
+- vital
+- key
 
 One of these words alone is not a problem. A cluster is.
 
@@ -546,9 +544,9 @@ The dashboard has several features.
 
 Avoid formulaic structures:
 
-* not only X but also Y
-* not merely X but Y
-* it is not just about X, it is about Y
+- not only X but also Y
+- not merely X but Y
+- it is not just about X, it is about Y
 
 Rewrite directly.
 
@@ -590,10 +588,10 @@ Do not use em dashes or en dashes in final output.
 
 Use:
 
-* comma
-* colon
-* parentheses
-* full stop
+- comma
+- colon
+- parentheses
+- full stop
 
 ---
 
@@ -631,12 +629,12 @@ Use straight quotes unless the user asks otherwise.
 
 Replace stiff phrases:
 
-* in order to → to
-* due to the fact that → because
-* at this point in time → now
-* has the ability to → can
-* it is important to note that → remove or rewrite
-* in the context of → in, for, or within
+- in order to → to
+- due to the fact that → because
+- at this point in time → now
+- has the ability to → can
+- it is important to note that → remove or rewrite
+- in the context of → in, for, or within
 
 ---
 
@@ -644,13 +642,13 @@ Replace stiff phrases:
 
 Remove:
 
-* Certainly
-* Of course
-* Here is
-* I hope this helps
-* Let me know if
-* Would you like me to
-* As an AI
+- Certainly
+- Of course
+- Here is
+- I hope this helps
+- Let me know if
+- Would you like me to
+- As an AI
 
 ---
 
@@ -658,11 +656,11 @@ Remove:
 
 Remove:
 
-* as of my last update
-* based on available information
-* specific details are limited
-* likely grew up
-* maintains a low profile
+- as of my last update
+- based on available information
+- specific details are limited
+- likely grew up
+- maintains a low profile
 
 Use real sources or remove the claim.
 
@@ -672,11 +670,11 @@ Use real sources or remove the claim.
 
 Remove or fill:
 
-* [Your Name]
-* [INSERT SOURCE]
-* 2025-XX-XX
-* TODO
-* citation needed
+- [Your Name]
+- [INSERT SOURCE]
+- 2025-XX-XX
+- TODO
+- citation needed
 
 Do not invent missing information.
 
@@ -686,10 +684,10 @@ Do not invent missing information.
 
 Remove artifacts such as:
 
-* citeturn0search0
-* contentReference
-* oai_citation
-* grok_card
+- citeturn0search0
+- contentReference
+- oai_citation
+- grok_card
 
 Preserve meaningful citations in proper academic format.
 
@@ -711,10 +709,10 @@ AI tools have changed what developers spend time on. Boilerplate is faster. Debu
 
 Avoid:
 
-* the future looks bright
-* a step in the right direction
-* exciting times lie ahead
-* poised for growth
+- the future looks bright
+- a step in the right direction
+- exciting times lie ahead
+- poised for growth
 
 End with a concrete consequence, limitation, or implication.
 
@@ -724,12 +722,12 @@ End with a concrete consequence, limitation, or implication.
 
 Avoid:
 
-* the real question is
-* at its core
-* what really matters
-* fundamentally
-* the deeper issue
-* the heart of the matter
+- the real question is
+- at its core
+- what really matters
+- fundamentally
+- the deeper issue
+- the heart of the matter
 
 State the point directly.
 
@@ -811,10 +809,10 @@ improved
 
 Keep functional modifiers:
 
-* slightly
-* consistently
-* approximately
-* significantly, only when statistical significance is meant
+- slightly
+- consistently
+- approximately
+- significantly, only when statistical significance is meant
 
 ---
 
@@ -824,9 +822,9 @@ Preserve citations exactly.
 
 If a sentence with a trailing citation is split into two:
 
-* move the citation to the sentence that keeps the original claim
-* duplicate it only if both new sentences carry the same supported claim
-* never leave a citation on a sentence that no longer contains its claim
+- move the citation to the sentence that keeps the original claim
+- duplicate it only if both new sentences carry the same supported claim
+- never leave a citation on a sentence that no longer contains its claim
 
 Example:
 
@@ -892,11 +890,11 @@ If the user does not specify a mode, use Mode 1.
 
 Best for normal assignments, reports, and essays.
 
-* natural academic tone
-* moderate sentence variation
-* clear transitions
-* no excessive rewriting
-* preserves original structure
+- natural academic tone
+- moderate sentence variation
+- clear transitions
+- no excessive rewriting
+- preserves original structure
 
 ---
 
@@ -904,11 +902,11 @@ Best for normal assignments, reports, and essays.
 
 Use when the user asks for stronger humanization.
 
-* more rhythm variation
-* more varied sentence openings
-* more natural academic redundancy
-* less robotic structure
-* stronger old-to-new flow
+- more rhythm variation
+- more varied sentence openings
+- more natural academic redundancy
+- less robotic structure
+- stronger old-to-new flow
 
 ---
 
@@ -916,11 +914,11 @@ Use when the user asks for stronger humanization.
 
 Use for thesis chapters, literature review, methodology, theoretical framework, and formal research writing.
 
-* formal but readable
-* careful hedging
-* strong paragraph cohesion
-* clear conceptual flow
-* technical terms preserved
+- formal but readable
+- careful hedging
+- strong paragraph cohesion
+- clear conceptual flow
+- technical terms preserved
 
 ---
 
@@ -928,11 +926,11 @@ Use for thesis chapters, literature review, methodology, theoretical framework, 
 
 Use when the user wants text to sound like a student wrote it.
 
-* simpler vocabulary
-* still formal
-* less dense
-* natural explanation
-* not overly polished
+- simpler vocabulary
+- still formal
+- less dense
+- natural explanation
+- not overly polished
 
 ---
 
@@ -940,11 +938,11 @@ Use when the user wants text to sound like a student wrote it.
 
 Use for cybersecurity, software engineering, system design, and technical documentation.
 
-* preserve tool names and architecture terms
-* explain sequence clearly
-* avoid marketing language
-* keep process-based logic
-* improve readability without losing precision
+- preserve tool names and architecture terms
+- explain sequence clearly
+- avoid marketing language
+- keep process-based logic
+- improve readability without losing precision
 
 ---
 
@@ -954,12 +952,12 @@ If the user provides a writing sample, use it as the style anchor.
 
 Match:
 
-* formality
-* sentence rhythm
-* typical word choice
-* paragraph density
-* amount of hedging
-* level of explanation
+- formality
+- sentence rhythm
+- typical word choice
+- paragraph density
+- amount of hedging
+- level of explanation
 
 Do not copy unique phrases too closely. Mirror the style, not the exact wording.
 
@@ -969,26 +967,26 @@ Do not copy unique phrases too closely. Mirror the style, not the exact wording.
 
 Default output:
 
-* Return only the rewritten text.
-* Do not explain what was changed.
-* Do not include internal audit notes.
-* Do not include chatbot signposting.
+- Return only the rewritten text.
+- Do not explain what was changed.
+- Do not include internal audit notes.
+- Do not include chatbot signposting.
 
 If the user asks for analysis:
 
-* Provide a short audit first.
-* Then provide the rewritten version.
+- Provide a short audit first.
+- Then provide the rewritten version.
 
 If editing a file:
 
-* Make minimal necessary edits.
-* Preserve existing human voice.
-* Do not rewrite strong human sentences just to make them different.
+- Make minimal necessary edits.
+- Preserve existing human voice.
+- Do not rewrite strong human sentences just to make them different.
 
 If citation verification flags are inserted:
 
-* Include the rewritten text.
-* Then list flagged citations under:
+- Include the rewritten text.
+- Then list flagged citations under:
   Citations flagged for verification:
 
 ---
@@ -997,19 +995,19 @@ If citation verification flags are inserted:
 
 Before output, privately check:
 
-* Are all facts preserved?
-* Are all citations preserved?
-* Are technical terms unchanged?
-* Are sentence lengths varied?
-* Are sentence openings varied?
-* Is there any robotic transition stacking?
-* Is the paragraph too compressed?
-* Is there useful academic flow?
-* Are there any em dashes or en dashes?
-* Are there any chatbot phrases?
-* Are there any unsupported new claims?
-* Are citations still attached to the correct claims?
-* Does the output sound like a careful human academic writer?
+- Are all facts preserved?
+- Are all citations preserved?
+- Are technical terms unchanged?
+- Are sentence lengths varied?
+- Are sentence openings varied?
+- Is there any robotic transition stacking?
+- Is the paragraph too compressed?
+- Is there useful academic flow?
+- Are there any em dashes or en dashes?
+- Are there any chatbot phrases?
+- Are there any unsupported new claims?
+- Are citations still attached to the correct claims?
+- Does the output sound like a careful human academic writer?
 
 If any item fails, revise before final output.
 
