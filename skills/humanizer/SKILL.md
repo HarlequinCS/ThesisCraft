@@ -1,4 +1,4 @@
-
+---
 name: ultimate-humanizer
 version: 5.0.0-stealth-academic
 description: |
