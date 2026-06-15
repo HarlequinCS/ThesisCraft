@@ -1305,6 +1305,48 @@ Good:
 Playwright handles the verification step by running payloads in a controlled browser session. Once the result is produced, FastAPI routes the finding through the backend, while Redis and Celery manage longer scanning tasks asynchronously. GPT-4o then interprets the verified finding and prepares a JSON-based remediation suggestion.
 
 ---
+## Partial phrase match rule
+
+Do not only replace words inside banned phrases. Replace the full sentence structure.
+
+If a banned phrase is:
+- plays a central role
+
+Then these are also banned:
+- plays a useful role
+- plays an important role
+- plays a major role
+- plays a meaningful role
+- has a central role
+- has an important role
+
+Rewrite the whole sentence into a direct action sentence.
+
+Bad:
+DAST plays a useful role in finding web application vulnerabilities early.
+
+Good:
+DAST helps identify possible web application vulnerabilities early.
+
+If a banned phrase is:
+- bridges the gap
+
+Then these are also banned:
+- close the gap
+- reduce the gap
+- fill the gap
+- connect the gap
+- narrow the gap
+
+Rewrite the sentence by explaining the actual process.
+
+Bad:
+The workflow tries to close the gap between detection and remediation.
+
+Good:
+The workflow makes scanner findings easier to verify and turn into remediation suggestions.
+
+---
 
 ## Final instruction
 
