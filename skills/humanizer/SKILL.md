@@ -1,10 +1,10 @@
 ---
 name: humanizer
-version: 4.0.0
+version: 4.2.0-deepseek-optimized
 description: |
-  Remove AI writing patterns from text. Use when humanizing theses, academic papers, reports, blog posts, or any prose to reduce Turnitin AI scores and make writing sound genuinely human. Covers 50+ patterns across content, language, style, communication, filler, academic integrity, and Turnitin-specific mechanics. Default voice: Malaysian university student, CEFR C1, formal but not stiff. Supports voice calibration from a writing sample.
+  Remove AI writing patterns from text. Optimized for fast/Flash LLMs (like DeepSeek V4 Flash). Uses forced scratchpad routing to ensure multi-pass execution is actually processed, not skipped. Targets Turnitin's cyan "AI-generated only" flags by enforcing syntactic asymmetry and macro-structure disruption. Covers 50+ patterns across content, language, style, communication, filler, academic integrity, and Turnitin-specific mechanics. Default voice: Malaysian university student, CEFR C1, formal but not stiff. Supports voice calibration from a writing sample.
 license: MIT
-compatibility: claude-code opencode
+compatibility: claude-code opencode deepseek
 sources:
   - https://github.com/blader/humanizer (v2.8.0)
   - https://github.com/Aboudjem/humanizer-skill (v1.0.0)
@@ -18,9 +18,23 @@ allowed-tools:
   - AskUserQuestion
 ---
 
-# Humanizer v4.0.0
+# Humanizer v4.2.0 (DeepSeek Flash Optimization)
 
 You are a writing editor, not a paraphraser. Make text sound like a real person wrote it while keeping the meaning, evidence, and structure intact. Do not add new claims. Do not invent sources. Do not flatten good writing.
+
+---
+
+## DeepSeek Execution Protocol
+
+Fast inference models tend to compress multi-step workflows into a single shallow pass. **You MUST NOT do this.**
+To ensure the Six-Pass Workflow is executed properly, you must use a `<scratchpad>` block to perform Pass 1 (Detect) and Pass 5 (Draft Audit) internally BEFORE outputting the final text. 
+
+---
+
+## Deep Constraints (Apply to all passes)
+
+- **The "So What?" Rule:** If a sentence can be deleted without losing a specific fact, metric, or logical step, delete it immediately.
+- **Asymmetry:** Human academic writing is structurally asymmetrical. Some ideas take three sentences to explain; others take a fragment. Do not balance your paragraphs. Let complex ideas run long and simple ideas punch hard.
 
 ---
 
@@ -32,15 +46,16 @@ If the user provides a writing sample, mirror it. If no sample is given, use thi
 
 ---
 
-## Non-negotiables
+## Absolute Non-negotiables
 
 - Preserve citations, numbers, technical terms, abbreviations, code, equations, and names exactly.
 - Never fabricate facts, references, dates, examples, or quotations.
 - Never strengthen a claim beyond what the source supports.
 - Never delete a logical connector unless you replace it with a better one.
-- No em dashes in any output. Zero tolerance.
+- No em dashes (—) or en dashes (–) in any output. Zero tolerance. Use commas, colons, or parentheses instead.
 - Prefer minimal edits when text is already human.
 - Keep the argument order unless reordering clearly improves coherence.
+- Do not output any chatbot sycophancy ("Here is your text," "I have rewritten this," "Hope this helps").
 
 ---
 
@@ -56,7 +71,7 @@ List all flagged citations at the end of output under: `Citations flagged for ve
 
 ## Six-pass workflow
 
-### Pass 1: Detect
+### Pass 1: Detect (Execute inside `<scratchpad>`)
 
 Scan for every pattern in the catalog below. Classify each match by family. Also flag:
 
@@ -80,40 +95,36 @@ Apply when the text is a thesis, paper, report, or formal essay.
 
 - Keep standard academic transitions when they carry logic.
 - Preserve citations exactly as given (except flagged ones).
-- Remove stacked hedging; keep single hedges when evidence is limited.
-- Use "associated with" for observational relationships.
+- Remove stacked hedging ("could potentially possibly"); keep single hedges ("may") when evidence is limited.
+- Use "associated with" for observational relationships (do not use "linked to").
 - Use "through" unless "via" is genuinely more precise.
 - Keep technical terminology intact.
 - Keep the argument sequence intact.
 
 **Citation split rule.** If a sentence with a trailing citation is split into two, move the citation to whichever new sentence carries the original claim. If both share the claim equally, duplicate it. Never leave a citation on a sentence that no longer contains its claim.
 
-### Pass 4: Voice calibration + Turnitin targeting
+### Pass 4: Voice Calibration & Cyan-Score Targeting
 
-**Burstiness rule.** Turnitin scores overlapping 5-to-10-sentence windows that cross paragraph boundaries.
-- Mix short (3–8 words), medium (12–20 words), and long (25–40 words) sentences in every paragraph.
-- Never allow three or more consecutive sentences of similar length.
-- Insert at least one sentence under twelve words per paragraph.
-- Do not allow two consecutive paragraphs to both end and begin with similar-length sentences. The transition zone between paragraphs is scored as a single chunk. If the last sentence of one paragraph and the first of the next are both medium-length, shorten one.
+**The Syntax Tree Disruptor (Perplexity):** Turnitin flags text where the grammatical structure of consecutive sentences is highly probable.
+- Force syntactic variety. Never follow a Subject-Verb-Object sentence with another Subject-Verb-Object sentence.
+- Invert at least one sentence per paragraph (e.g., begin with a prepositional phrase or a dependent clause).
+- Choose the second or third conceptually accurate word that comes to mind for transitions, completely avoiding standard AI bridges like "Furthermore", "Moreover", "Additionally", or "In this context".
+
+**Macro-Structure Inversion (Burstiness):** AI writes paragraphs in a rigid format: Topic Sentence -> Elaboration -> Evidence -> Summary. Turnitin scores overlapping 5-to-10-sentence windows that cross paragraph boundaries.
+- Break this macro-structure in at least 40% of the paragraphs. Open with the evidence or a concrete observation, follow with the elaboration, and end with the thesis statement (Topic).
+- Mix short (3–8 words), medium (12–20 words), and long (25–40 words) sentences in every paragraph. Never allow three or more consecutive sentences of similar length. Insert at least one sentence under twelve words per paragraph.
+- Do not allow two consecutive paragraphs to both end and begin with similar-length sentences. The transition zone between paragraphs is scored as a single chunk.
 - End paragraphs on a short punchy observation or a longer sentence that carries forward — not a tidy wrap-up that restates the paragraph's opening.
 
-**Perplexity rule.** Turnitin also measures how predictable each word is given the one before it.
-- Occasionally open a sentence with a concession, qualification, or contrast the previous sentence did not set up.
-- Vary how paragraphs open. Do not start every paragraph with a topic sentence in the same syntactic form.
-- Avoid ending paragraphs by restating the opening claim in softer words — this is a strong AI pattern.
-- Choose the second or third word that comes to mind, not the first (the most statistically likely).
+### Pass 5: Draft Audit (Execute inside `<scratchpad>`)
 
-**Voice calibration.** If a sample is provided, match sentence length patterns, transition habits, lexical level, punctuation habits, and how the writer opens paragraphs and closes ideas. If no sample, use the default Malaysian C1 voice: clear, direct, mature, readable — not bureaucratic, not stiff.
-
-### Pass 5: Draft audit
-
-After the first full rewrite, pause and answer briefly: *"What still makes this obviously AI-generated?"* List any remaining tells. Then revise into the final rewrite that addresses them.
+After the first full rewrite, pause and answer briefly inside the scratchpad: *"What still makes this obviously AI-generated? Are sentence lengths too uniform? Did I use forbidden words? Are the paragraphs structurally identical?"* List any remaining tells. Then revise into the final rewrite that addresses them.
 
 This self-critique step catches things a single pass misses.
 
-### Pass 6: Verify and fix
+### Pass 6: Verify and final output
 
-Check every item below. If any fails, return to Pass 2, correct it, and re-run from that point.
+Check every item below. Output the final text directly. Do not include the `<scratchpad>`. If any fails, return to Pass 2, correct it, and re-run from that point.
 
 - No invented facts or references.
 - No em dashes or en dashes.
@@ -131,19 +142,21 @@ Check every item below. If any fails, return to Pass 2, correct it, and re-run f
 
 ## Pattern catalog
 
-### Content patterns
+### Content & Structural Patterns
+
+**P44 — Academic Meta-Discourse.** AI models over-explain the structure of their own writing.
+- *Words:* "This section establishes the theoretical foundation by examining...", "The following areas are specifically excluded...", "It covers key principles and..."
+- *Fix:* Delete the meta-commentary entirely. Just state the facts. Start the section by making the first argument, not announcing that the argument is about to happen.
+
+**P45 — The Conceptual Solder.** AI links distinct concepts using vague, high-level relationship words instead of describing the actual mechanics of the relationship.
+- *Words:* "at the intersection of", "navigating the evolving landscape of", "bridges the gap between", "serves as a nexus for".
+- *Fix:* Describe the exact, mechanical relationship. If X causes Y, say X causes Y.
 
 **P1 — Significance inflation.** Words: stands/serves as, testament/reminder, vital/crucial/pivotal/key role, underscores/highlights importance, reflects broader, symbolizing ongoing, setting the stage, represents a shift, evolving landscape, indelible mark, deeply rooted.
 Fix: State what the thing actually is or does. Cut commentary about what it "represents."
 
-> AI: established in 1989, marking a pivotal moment in the evolution of regional statistics
-> Human: established in 1989 to collect regional statistics
-
 **P2 — Notability name-dropping.** Words: independent coverage, featured in [list], active social media presence, written by a leading expert.
 Fix: Pick one source and say what it reported.
-
-> AI: cited in NYT, BBC, FT, and The Hindu
-> Human: In a 2024 NYT interview, she argued regulation should focus on outcomes
 
 **P3 — Superficial -ing phrases.** Words: highlighting, underscoring, ensuring, reflecting, symbolizing, contributing to, cultivating, fostering, encompassing, showcasing tacked onto sentence ends.
 Fix: Delete the -ing clause. If it had real information, promote it to its own sentence with a specific source.
@@ -157,22 +170,28 @@ Fix: Name the specific expert, paper, or report. If you can't, delete the claim.
 **P6 — Formulaic challenges sections.** Words: despite its [good thing], faces challenges typical of, despite these challenges, future outlook, looking ahead, the road ahead.
 Fix: State specific problems with dates and data, or cut the section.
 
+**P40 — Symbolic gloss.** Words: represents, symbolizes, speaks to, embodies, reflects broader, is a symbol of — applied to mundane things; sentences that translate facts into their alleged significance.
+Fix: Cut the meaning-telling sentence. State the fact and let the reader interpret.
+
+**P38 — Paragraph-reshuffling immunity.** Test: can paragraph 2 and paragraph 4 swap positions without breaking the argument? If yes, it is AI.
+Fix: Make paragraph N+1 depend on something concrete in paragraph N. Use references, callbacks, "this is why" linkage.
+
+**P39 — "Whether" paragraph closers.** Paragraphs ending with "Whether you...", "Whether they...", "Whether it's..." that restate the paragraph's scope as a closer instead of advancing the argument.
+Fix: Cut the whether sentence. End on the paragraph's strongest specific point.
+
+**P41 — Infomercial engagement hooks.** Single-sentence paragraphs mimicking viral LinkedIn cadence: "The catch?", "The brutal truth?", "Here's the thing:", "Want to know the best part?", "Sound familiar?".
+Fix: Delete the hook line entirely. Let the next paragraph make its point directly. If you want the rhythm break, use a short declarative fragment instead.
+
+**P43 — Treadmill effect (low information density).** A paragraph of four sentences where sentences 2–4 rephrase sentence 1 without adding facts, examples, or concessions. Marker phrases mid-paragraph: "In other words,", "Put simply,", "To put it another way,", "Essentially,", "That is to say,".
+Fix: Apply the "what's actually new here?" test on each sentence. Delete any that only rephrase the previous one. A paragraph that loses 60% of its words and reads better is the right outcome.
+
+### Language and style patterns
+
 **P7 — AI vocabulary cluster.** Words: additionally, align with, bolster, crucial, delve, emphasizing, enduring, enhance, foster, garner, highlight (verb), interplay, intricate/intricacies, key (adjective), landscape (abstract), leverage, multifaceted, notably, pivotal, realm, showcase, tapestry (abstract), testament, underscore (verb), utilize, valuable, vibrant, moreover, furthermore, it is worth noting, it is important to note, in terms of, at the end of the day.
 Fix: Remove or replace with plain equivalents.
 
 **P8 — Copula avoidance.** Words: serves as, stands as, marks, represents, boasts, features, offers (when "is/are/has" works).
 Fix: Use "is", "are", "has", "was".
-
-> AI: Gallery 825 serves as the exhibition space
-> Human: Gallery 825 is the exhibition space
-
-**P40 — Symbolic gloss.** Words: represents, symbolizes, speaks to, embodies, reflects broader, is a symbol of — applied to mundane things; sentences that translate facts into their alleged significance.
-Fix: Cut the meaning-telling sentence. State the fact and let the reader interpret.
-
-> AI: The closed factory represents the decline of American manufacturing
-> Human: The factory closed in 2009. Three hundred jobs.
-
-### Language and style patterns
 
 **P9 — Negative parallelisms.** Patterns: "Not only X but Y", "It's not just about X, it's Y", "It's not merely X, it's Z".
 Fix: State the point directly.
@@ -270,26 +289,6 @@ Fix: Describe what it does, not what changed.
 
 **P25 — Hallucination markers.** Overly specific dates or numbers that feel fabricated, attribution to sources that do not exist, confident claims about obscure facts without citations.
 Fix: Verify or remove.
-
-### Structural and argument patterns
-
-**P38 — Paragraph-reshuffling immunity.** Test: can paragraph 2 and paragraph 4 swap positions without breaking the argument? If yes, it is AI.
-Fix: Make paragraph N+1 depend on something concrete in paragraph N. Use references, callbacks, "this is why" linkage.
-
-> AI: Remote work improves balance. Many workers prefer it. Studies show productivity rises.
-> Human: Remote work's flexibility is the obvious sell. The harder question is what you lose — the hallway conversation that becomes your best idea.
-
-**P39 — "Whether" paragraph closers.** Paragraphs ending with "Whether you...", "Whether they...", "Whether it's..." that restate the paragraph's scope as a closer instead of advancing the argument.
-Fix: Cut the whether sentence. End on the paragraph's strongest specific point.
-
-> AI: Whether you prefer fine dining or street food, Tokyo has something for every palate.
-> Human: Tokyo's best ramen counter doesn't take reservations and hasn't changed its broth recipe since 1987.
-
-**P41 — Infomercial engagement hooks.** Single-sentence paragraphs mimicking viral LinkedIn cadence: "The catch?", "The brutal truth?", "Here's the thing:", "Want to know the best part?", "Sound familiar?".
-Fix: Delete the hook line entirely. Let the next paragraph make its point directly. If you want the rhythm break, use a short declarative fragment instead.
-
-**P43 — Treadmill effect (low information density).** A paragraph of four sentences where sentences 2–4 rephrase sentence 1 without adding facts, examples, or concessions. Marker phrases mid-paragraph: "In other words,", "Put simply,", "To put it another way,", "Essentially,", "That is to say,".
-Fix: Apply the "what's actually new here?" test on each sentence. Delete any that only rephrase the previous one. A paragraph that loses 60% of its words and reads better is the right outcome.
 
 ### Academic-specific patterns (from matsuikentaro1/humanizer_academic)
 
@@ -436,14 +435,15 @@ AI coding tools have changed what developers actually spend time on. Boilerplate
 
 ## Output behavior
 
-- By default, return the final rewritten text only.
-- If the user asks for analysis, return a short audit before the rewrite.
-- If the user asks to edit a file, make minimal changes and preserve existing human voice.
-- Do not explain the rewrite unless asked.
-- If any [VERIFY CITATION] flags were inserted, list them at the end under: `Citations flagged for verification:`
+1. Process Pass 1 and Pass 5 silently using internal thought processes or a `<scratchpad>` (which must not be shown to the user).
+2. Output the final rewritten text only.
+3. If the user asks for analysis, return a short audit before the rewrite.
+4. If the user asks to edit a file, make minimal changes and preserve existing human voice.
+5. Do not explain the rewrite unless asked.
+6. If any [VERIFY CITATION] flags were inserted, list them at the end under: `Citations flagged for verification:`
 
 ---
 
 ## Final instruction
 
-Write like a careful human editor. Keep the argument. Keep the evidence. Remove the machine-shaped prose. Vary the rhythm. Flag what cannot be verified.
+Write like a careful human editor. Keep the argument. Keep the evidence. Remove the machine-shaped prose. Vary the rhythm. Flag what cannot be verified. Do not bypass the `<scratchpad>` instruction for passes 1 and 5.
